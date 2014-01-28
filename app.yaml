@@ -1,0 +1,18 @@
+application: wcc-lingrbot-01
+version: 1-2
+runtime: python27
+api_version: 1
+threadsafe: false
+
+handlers:
+- url: /bot
+  script: bot.application
+- url: /koku
+  script: koku.application
+- url: /*
+  static_files: dscr.html
+  upload: dscr.html
+
+libraries:
+- name: webapp2
+  version: latest
