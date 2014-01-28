@@ -21,8 +21,9 @@ class LingrBot1(webapp2.RequestHandler):
             '!google' : self.do_google,
             '!gimg' : self.do_gimg,
             '!nicodic' : self.do_nicodic,
-            '!timezzz' : self.do_timezzz,
+            '!help' : self.do_help,
             u'今何時ぢゃ' : self.do_koku,
+            #'!timezzz' : self.do_timezzz,
         }
     
     def get(self):
@@ -33,14 +34,22 @@ class LingrBot1(webapp2.RequestHandler):
         self.do(json.loads(self.request.body))
     
     def do_ping(self, body):
+        """Check if bot is online."""
         self.response.write(self.ping())
     
     def do_weather(self, body):
+        """Weather forecasts for today and tomorrow.
+        usage : !weather <cityname>
+        where cityname is one of listed on https://gist.github.com/lesguillemets/f52c57cb19bf25833f3a.
+        """
         from modules import weather 
         forecast = weather.WForecast(text.split()[1]).forecast()
         self.response.write(forecast)
     
     def do_bf(self, body):
+        """Brainsth interpreter.
+        usage : !bf <command>
+        """
         self.response.write("BF intepret result:\n")
         from modules import bf
         mybf = bf.BrainSth(30)
@@ -48,18 +57,28 @@ class LingrBot1(webapp2.RequestHandler):
         self.response.write(mybf.execute())
     
     def do_pyref(self, body):
+        """Lookup python library reference.
+        Usage : !pyref <module name>"""
         from modules import pyref
         self.response.write(pyref.pyref(body))
     
     def do_pyref3(self, body):
+        """Lookup python3 library reference.
+        Usage : !pyref <module name>"""
         from modules import pyref
         self.response.write(pyref.pyref3(body))
     
     def do_pyref2(self, body):
+        """Lookup python2 library reference.
+        Usage : !pfref <module name>"""
         from modules import pyref
         self.response.write(pyref.pyref(body, '2'))
     
     def do_random(self, body):
+        """Returns random number.
+        Usage : !random [int]
+        returns random integer 0 <= i < n if n is given,
+        otherwise (uniformly) random float in [0.0, 1.0).  """
         import random
         if body:
             try:
@@ -70,22 +89,30 @@ class LingrBot1(webapp2.RequestHandler):
             self.response.write(random.random())
     
     def do_nicodic(self, body):
+        """Lookup dic.nicovideo.jp.
+        Usage : !nicodic <article name>"""
         from modules import nicodic
         self.response.write(nicodic.nicodic(body.encode('utf-8')))
     
+    '''
     def do_timezzz(self, body):
+        """returns datetime.datetime.now()."""
         import datetime as dt
         self.response.write(dt.datetime.now().__repr__())
+    '''
     
     def do_google(self, body):
+        """Google search."""
         from modules import googlesearch as gs
         self.response.write(gs.gslink(body))
     
     def do_gimg(self, body):
+        """Google Image search."""
         from modules import googlesearch as gs
         self.response.write(gs.gslink_img(body))
     
     def do_koku(self, body):
+        """Returns current time represented in traditional Japanese style."""
         from modules import etotime
         import datetime as dt
         etime = etotime.ETOTime()
@@ -93,6 +120,25 @@ class LingrBot1(webapp2.RequestHandler):
             etime.koku(dt.datetime.now() + dt.timedelta(hours=9)) 
             + u" にて候")
     
+    def do_help(self, body):
+        """Help.
+        Usage : !help <command name>
+        * bot actions that are not triggered by commands are not supported.
+        * command name may or may not include prefixing '!'."""
+        if body:
+            if body in self.commands:
+                self.response.write(self.commands[body].__doc__)
+            elif '!' + body in self.commands:
+                self.response.write(self.commands['!'+body].__doc__)
+            else:
+                self.response.write(
+                    "Command '{}' not found.".format(body))
+        else:
+            commandnames = list(map(lambda x: x[1:] if x.startswith('!') else x,
+                               self.commands.keys()))
+            self.response.write(
+            "list of available commands are:\n" +
+                ', '.join(commandnames))
     
     def do(self, data):
         message = data['events'][0]['message']
