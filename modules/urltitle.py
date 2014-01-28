@@ -21,6 +21,9 @@ def gettitle(url):
             return ("Google search: " + 
                     ul.unquote(query.encode("utf-8")).replace("+",' '))
     
+    elif url.startswith("https://gist.github.com"):
+        return ""
+    
     else:
         try:
             req = ul.Request(url)

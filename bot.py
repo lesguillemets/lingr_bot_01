@@ -121,7 +121,7 @@ class LingrBot1(webapp2.RequestHandler):
                     if not urlname.split('.')[-1].lower() in (
                         'png','jpg', 'jpeg', 'gif', 'svg'):
                         titles.append(urltitle.gettitle(urlname))
-                if titles != []:
+                if any(titles):
                     self.response.write('URL title response:\n' + '\n'.join(titles))
                 else:
                     self.response.write('')
