@@ -43,7 +43,7 @@ class LingrBot1(webapp2.RequestHandler):
         where cityname is one of listed on https://gist.github.com/lesguillemets/f52c57cb19bf25833f3a.
         """
         from modules import weather 
-        forecast = weather.WForecast(text.split()[1]).forecast()
+        forecast = weather.WForecast(body.split()[0]).forecast()
         self.response.write(forecast)
     
     def do_bf(self, body):
