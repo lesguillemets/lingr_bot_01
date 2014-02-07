@@ -142,7 +142,7 @@ class LingrBot1(webapp2.RequestHandler):
     
     def do(self, data):
         message = data['events'][0]['message']
-        text = message['text']
+        text = message['text'].strip()
         command = text.split()[0]
         if ' ' in text:
             body = text[text.index(' ')+1:]
