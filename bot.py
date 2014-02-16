@@ -43,7 +43,10 @@ class LingrBot1(webapp2.RequestHandler):
         where cityname is one of listed on https://gist.github.com/lesguillemets/f52c57cb19bf25833f3a.
         """
         from modules import weather 
-        forecast = weather.WForecast(body.split()[0]).forecast()
+        try:
+            forecast = weather.WForecast(body.split()[0]).forecast()
+        except ValueError:
+            forecast = "Unknown city name. See https://gist.github.com/lesguillemets/f52c57cb19bf25833f3a for a list of the cities for which forecasts are available."
         self.response.write(forecast)
     
     def do_bf(self, body):
