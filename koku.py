@@ -21,4 +21,4 @@ class MainHandler(webapp2.RequestHandler):
         etime = etotime.ETOTime()
         self.response.write(HTML_TEMP.format(etime.koku() + u" にて候"))
     
-application = webapp2.WSGIApplication([('/', MainHandler)], debug=True)
+application = webapp2.WSGIApplication([('/koku', MainHandler)], debug=True)
