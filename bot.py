@@ -175,6 +175,10 @@ class LingrBot1(webapp2.RequestHandler):
                 else:
                     self.response.write('')
             
+            if applicable_suddendeath(text):  # works even when has url
+                from modules import suddendeath
+                self.response.write(suddendeath.sudden_death(text[1:-1]))
+            
             else:  # none of the above
                 self.response.write('')
     
@@ -183,5 +187,9 @@ class LingrBot1(webapp2.RequestHandler):
 
 def has_url(text):
     return URLPATTERN.search(text) is not None
+
+def applicable_suddendeath(text):
+    return ((text.startswith(">") and text.endswith("<")) or
+            text.startswith(u"＞") and text.startswith(u"＜"))
 
 application = webapp2.WSGIApplication([('/bot', LingrBot1)], debug=True)

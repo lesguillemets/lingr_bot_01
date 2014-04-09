@@ -8,4 +8,5 @@ __all__ = ['weather',
            'nicodic',
            'etotime',
            'googlesearch',
+           'suddendeath',
            ]
