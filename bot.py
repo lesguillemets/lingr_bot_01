@@ -21,6 +21,7 @@ class LingrBot1(webapp2.RequestHandler):
             '!google' : self.do_google,
             '!gimg' : self.do_gimg,
             '!nicodic' : self.do_nicodic,
+            '!nicovideo' : self.do_nicovideo,
             '!help' : self.do_help,
             u'今何時ぢゃ' : self.do_koku,
             #'!timezzz' : self.do_timezzz,
@@ -96,6 +97,12 @@ class LingrBot1(webapp2.RequestHandler):
         Usage : !nicodic <article name>"""
         from modules import nicodic
         self.response.write(nicodic.nicodic(body.encode('utf-8')))
+    
+    def do_nicovideo(self,body):
+        '''search for title and returns the top video.'''
+        from modules import nicovideo
+        self.response.write("nicovideo response: "+
+                            nicovideo.nico_topvideo(body))
     
     '''
     def do_timezzz(self, body):
