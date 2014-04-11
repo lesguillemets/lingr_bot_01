@@ -29,13 +29,19 @@ def nico_topsearch(title):
                             'Content-Type' : 'application/json'
                           })
     response = urllib2.urlopen(req).readlines()
-    videodata = json.loads(response[2])['values'][0]
-    return videodata
+    try:
+        videodata = json.loads(response[2])['values'][0]
+        return videodata
+    except KeyError:
+        return None
 
 def nico_topvideo(title):
     videodata = nico_topsearch(title)
-    return ("{}\nhttp://www.nicovideo.jp/watch/{}".format(
-        videodata['title'].encode('utf-8'), videodata['cmsid']))
+    if videodata:
+        return ("{}\nhttp://www.nicovideo.jp/watch/{}".format(
+            videodata['title'].encode('utf-8'), videodata['cmsid']))
+    else:
+        return "No match found."
 
 def responsechecker(title):
     data = dict(DATA, query=title.encode("utf-8"))
