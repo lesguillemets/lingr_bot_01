@@ -23,6 +23,7 @@ class LingrBot1(webapp2.RequestHandler):
             '!nicodic' : self.do_nicodic,
             '!nicovideo' : self.do_nicovideo,
             '!help' : self.do_help,
+            '!gh' : self.do_githubsearch,
             u'今何時ぢゃ' : self.do_koku,
             #'!timezzz' : self.do_timezzz,
         }
@@ -129,6 +130,13 @@ class LingrBot1(webapp2.RequestHandler):
         self.response.write(
             etime.koku(dt.datetime.now() + dt.timedelta(hours=9)) 
             + u" にて候")
+    
+    def do_githubsearch(self, body):
+        '''\
+    Returns the github repository that best matches your keyword.
+        '''
+        from modules import githubsearch as gh
+        self.response.write(gh.lingr_github_search(body))
     
     def do_help(self, body):
         """Help.

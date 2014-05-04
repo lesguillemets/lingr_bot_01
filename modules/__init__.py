@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
-__all__ = ['weather',
+__all__ = ['const',
+           'weather',
            'bf',
            'wparticle',
            'pyref',
@@ -10,4 +11,5 @@ __all__ = ['weather',
            'googlesearch',
            'suddendeath',
            'nicovideo',
+           'githubsearch',
            ]
