@@ -133,7 +133,8 @@ class LingrBot1(webapp2.RequestHandler):
     
     def do_githubsearch(self, body):
         '''\
-    Returns the github repository that best matches your keyword.
+        Returns the github repository that best matches your keyword.
+        Limit : 20 requests / minute.
         '''
         from modules import githubsearch as gh
         self.response.write(gh.lingr_github_search(body))
