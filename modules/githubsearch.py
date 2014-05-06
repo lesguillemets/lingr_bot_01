@@ -35,7 +35,7 @@ def lingr_github_search(keyword):
     item = github_best_match(keyword)
     if item:
         return dedent("""\
-            {fullname} ({url})
+            {fullname} ( {url} )
             \t {descr}
             written in {lang} / {fk} forks / {st} stars
             homapage : {hp}""".format(
@@ -55,7 +55,6 @@ def lingr_github_search(keyword):
             ))
     else:
         return "Couldn't find repositories matching '{}'.".format(keyword)
-
 
 if __name__ == "__main__":
     print(lingr_github_search("twython"))
